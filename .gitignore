@@ -1,0 +1,24 @@
+# dependencies
+node_modules/
+
+# testing
+coverage/
+
+# production
+build/
+
+# local
+.dev
+
+# osx 
+.DS_Store
+
+# dotenv
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# logs
+npm-debug.log*
