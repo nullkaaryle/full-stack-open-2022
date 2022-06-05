@@ -18,6 +18,14 @@ const Button = (props) => (
 const Statistics = (props) => {
   const { good, neutral, bad } = props
 
+  if (good === 0 && neutral === 0 && bad === 0) {
+    return (
+      <p>
+        No feedback given
+      </p>
+    )
+  }
+
   const total = good + neutral + bad
   const average = (((good * 1) + (neutral * 0) + (bad * (-1))) / total).toFixed(1)
   const positive = ((good / total) * 100).toFixed(1)
