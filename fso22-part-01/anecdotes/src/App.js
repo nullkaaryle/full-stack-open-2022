@@ -10,6 +10,7 @@ const Button = (props) => (
 
 // the root component
 const App = () => {
+
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -58,13 +59,26 @@ const App = () => {
     addVoteForQuote(selected)
   }
 
+  // finds the number of votes that is biggest in the list 'votes'
+  const biggestVote = Math.max(...votes)
+
+  // finds the index of biggest vote in the list 'votes'
+  // if several quotes have the same biggest number of votes
+  // then the smallest index is returned 
+  // when using indexOf (the first occurrence)
+  const findIndex = votes.indexOf(biggestVote)
+
+
   return (
     <div>
-      <h3>QUOTE OF THE DAY</h3>
-      <p>{anecdotes[selected]} </p>
+      <h3> QUOTE OF THE DAY </h3>
+      <p> {anecdotes[selected]} </p>
       <p> Votes for this quote: {votes[selected]}</p>
       <Button handleClick={voteQuote} text="vote" />
-      <Button handleClick={chooseNextQuote} text="next anecdote" />
+      <Button handleClick={chooseNextQuote} text="next quote" />
+      <h3> QUOTE WITH MOST VOTES ({biggestVote} votes)</h3>
+      <p> {anecdotes[findIndex]} </p>
+
     </div>
   )
 }
