@@ -1,29 +1,52 @@
-//uses Header, Content and Total components for data rendering
+
+//uses Header, Content and Total components for course data rendering
 const Course = ({ course }) =>
   <>
-    <Header course={course.name} />
-    <Content parts={course.parts} />
+    <Header course={course} />
+    <Content course={course} />
+    <Total course={course} />
   </>
+
 
 //takes care of rendering the name of the course
 const Header = ({ course }) =>
   <h1>
-    {course}
+    {course.name}
   </h1>
 
+
 //uses Part component to render all the parts
-const Content = ({ parts }) =>
+const Content = ({ course }) =>
   <>
-    {parts.map(part =>
+    {course.parts.map(part =>
       <Part key={part.id} part={part} />
     )}
   </>
+
 
 //renders the name and number of exercises of one part
 const Part = ({ part }) =>
   <p>
     {part.name} {part.exercises}
   </p>
+
+
+//uses Sum component to render the total of course exercises
+const Total = ({ course }) =>
+  <>
+    <h3>
+      Total number of exercises: <Sum parts={course.parts} />
+    </h3>
+  </>
+
+
+//counts together all the exercises in different course parts
+const Sum = ({ parts }) =>
+  <>
+    {parts.reduce((sum, part) =>
+      sum + part.exercises, 0)}
+  </>
+
 
 //the root component
 const App = () => {
