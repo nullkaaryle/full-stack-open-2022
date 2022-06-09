@@ -14,12 +14,17 @@ const App = () => {
   const [newName, setNewName] = useState('')
 
 
+  // text that the user types in number input field
+  // is saved in state newNumber
+  const [newNumber, setNewNumber] = useState('')
+
+
   // takes care of checking if there already
-  // is a person with same name
-  // and if not, then adding the person
+  // is a person with same name or number
+  // and if not, then saving the person
   const addPerson = (event) => {
     event.preventDefault()
-    if (match) {
+    if (matchName || matchNumber) {
       alertUser()
     } else {
       savePerson()
@@ -27,17 +32,19 @@ const App = () => {
   }
 
 
-  // check if the person with the same id 
+  // check if the person with the same name or number
   // is already added to phonebook
   // the id of the person uses lower case version of name
   // so the match checking is done on lower case newName
-  const match = persons.find((person) => person.id === newName.toLowerCase())
+  const matchName = persons.find((person) => person.id === newName.toLowerCase())
+  const matchNumber = persons.find((person) => person.number === newNumber)
 
 
   // alert user with a pop up in browser
-  // that the person is already added to phonebook
+  // that the person with that name or number
+  // is already added to phonebook
   const alertUser = () => {
-    window.alert(`${newName} is already added to phonebook`)
+    window.alert(`The name ${newName} or the number ${newNumber} is already added to phonebook`)
   }
 
 
@@ -46,25 +53,34 @@ const App = () => {
   // this prevents adding "Jane doe" to phonebook
   // if "Jane Doe" (or any other lower case/upper case combination) 
   // is already added
-  // the second last line empties the input element in form,
-  // if left out, the newName state would not change and
+  // the last lines empties the input elements in form,
+  // if left out, for example the newName state would not change and
   // the added name would stay on the input field
   // after submitting (and user would have to erase it)
   const savePerson = () => {
     const personObject = {
       name: newName,
+      number: newNumber,
       id: newName.toLowerCase()
     }
     setPersons(persons.concat(personObject))
     setNewName('')
+    setNewNumber('')
   }
 
 
   // follows the input field and
   // what the user is typing,
   // updates the newName state accordingly
-  const handlePersonChange = (event) => {
+  const handleNameChange = (event) => {
     setNewName(event.target.value)
+  }
+
+  // follows the input field and
+  // what the user is typing,
+  // updates the newNumber state accordingly
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
   }
 
 
@@ -74,11 +90,20 @@ const App = () => {
       <h1> Phonebook </h1>
 
       <form onSubmit={addPerson}>
-        NAME:{' '}
-        <input
-          value={newName}
-          onChange={handlePersonChange}
-        />
+        <p>
+          NAME:{' '}
+          <input
+            value={newName}
+            onChange={handleNameChange}
+          />
+        </p>
+        <p>
+          NUMBER:{' '}
+          <input
+            value={newNumber}
+            onChange={handleNumberChange}
+          />
+        </p>
         <button type="submit">
           ADD PERSON
         </button>
