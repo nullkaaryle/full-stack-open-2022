@@ -6,7 +6,13 @@ import Person from './components/Person'
 const App = () => {
 
   // list of Person objects are saved in state
-  const [persons, setPersons] = useState([])
+  // some seed data added for testing purposes
+  const [persons, setPersons] = useState([
+    { name: 'Ville', number: '05012345', id: 'ville' },
+    { name: 'Kalle', number: '04034557', id: 'kalle' },
+    { name: 'Anna', number: '05012324', id: 'anna' },
+    { name: 'Hanna', number: '04535123', id: 'hanna' }
+  ])
 
 
   // text that the user types in name input field
@@ -17,6 +23,10 @@ const App = () => {
   // text that the user types in number input field
   // is saved in state newNumber
   const [newNumber, setNewNumber] = useState('')
+
+  // text that the user types in filter input field
+  // is saved in state newFilter
+  const [newFilter, setNewFilter] = useState('')
 
 
   // takes care of checking if there already
@@ -45,6 +55,8 @@ const App = () => {
   // is already added to phonebook
   const alertUser = () => {
     window.alert(`The name ${newName} or the number ${newNumber} is already added to phonebook`)
+    setNewName('')
+    setNewNumber('')
   }
 
 
@@ -83,46 +95,63 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  // follows the input field and
+  // what the user is typing,
+  // updates the newFilter state accordingly
+  const handleFilterChange = (event) => {
+    setNewFilter(event.target.value)
+  }
 
   return (
     <div>
 
       <h1> Phonebook </h1>
 
+      <p>
+        Filter contacts shown with:{' '}
+        <input
+          value={newFilter}
+          onChange={handleFilterChange}
+        />
+      </p>
+
+      <h2> Contacts </h2>
+
+      <ul>
+        {persons
+          .filter(person =>
+            (person.id.includes(newFilter.toLowerCase())) || (person.number.includes(newFilter)))
+          .map(person =>
+            <Person
+              key={person.id}
+              person={person}
+            />)}
+      </ul>
+
+      <h2> Add a new contact </h2>
+
       <form onSubmit={addPerson}>
         <p>
-          NAME:{' '}
+          Name:{' '}
           <input
             value={newName}
             onChange={handleNameChange}
           />
         </p>
         <p>
-          NUMBER:{' '}
+          Number:{' '}
           <input
             value={newNumber}
             onChange={handleNumberChange}
           />
         </p>
         <button type="submit">
-          ADD PERSON
+          ADD CONTACT
         </button>
       </form>
 
-      <h2> Numbers </h2>
-
-      <ul>
-        {persons.map(person =>
-          <Person
-            key={person.id}
-            person={person}
-          />)}
-      </ul>
-
     </div>
-
   )
-
 }
 
 export default App
