@@ -1,9 +1,6 @@
 import Person from './Person'
 import { Input } from './Form'
 
-// component for filter
-// user types in text
-// text is used for filtering
 export const AddFilter = (props) => (
   <>
     <Input
@@ -13,14 +10,12 @@ export const AddFilter = (props) => (
   </>
 )
 
-// component for rendering contacts list
-// the persons shown in contact list
-// are filtered 
 export const ShowFiltered = (props) => (
   <ul>
+    {console.log('kontaktit on', props.contacts)}
     {props.contacts
-      .filter(person => person.id.includes((props.filter).toLowerCase()) || person.number.includes(props.filter))
+      .filter(person => (person.name.toLowerCase()).includes((props.filter).toLowerCase()) || (person.number).includes(props.filter))
       .map(person => <Person key={person.id} person={person} />)}
   </ul>
-);
+)
 

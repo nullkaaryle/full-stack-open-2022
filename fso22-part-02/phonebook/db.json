@@ -1,0 +1,24 @@
+{
+    "persons": [
+        {
+            "name": "Ville",
+            "number": "05012345",
+            "id": 1
+        },
+        {
+            "name": "Kalle",
+            "number": "04034557",
+            "id": 2
+        },
+        {
+            "name": "Anna",
+            "number": "05012324",
+            "id": 3
+        },
+        {
+            "name": "Hanna",
+            "number": "04535123",
+            "id": 4
+        }
+    ]
+}

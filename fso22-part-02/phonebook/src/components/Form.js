@@ -1,12 +1,10 @@
 
-// component for button functions
 export const Button = (props) => (
   <button type={props.type}>
     {props.text}
   </button>
 )
 
-// component for input fields
 export const Input = (props) => (
   <p>
     {props.text}
@@ -16,7 +14,6 @@ export const Input = (props) => (
   </p>
 )
 
-// component for Form rendering
 export const Form = (props) => {
   return (
     <form onSubmit={props.onSubmit}>
