@@ -1,47 +1,45 @@
-import { CountryName, CountryDetail } from './Country'
+import { Country, countCountries, ShowListOfCountries } from './Country'
 import { Input } from './Form'
+import { TooManyMatches, OneMatchFound, NoMatches } from './Match'
 
-export const AddFilter = (props) => (
-    <>
-        <Input
-            text='Find countries: '
-            value={props.filter}
-            onChange={props.onChange} />
-    </>
+
+export const AddFilter = ({ filter, onChange }) => (
+    <Input
+        text='Find countries: '
+        value={filter}
+        onChange={onChange} />
 )
 
-const FilterCountries = (props) => {
+
+const filterCountries = (countries, filter) => {
     return (
-        props.countries
-            .filter(country => (country.name.common.toLowerCase()).includes((props.filter).toLowerCase()))
-            .map(country => <CountryName key={country.name.official} country={country} />)
+        countries
+            .filter(country => (country.name.common.toLowerCase()).includes(filter.toLowerCase()))
+            .map(country => <Country key={country.name.official} country={country} />)
     )
 }
 
-export const ShowFiltered = (props) => {
-    const filteredCountries = FilterCountries(props)
 
-    if (filteredCountries.length > 10 && props.filter.length > 0) {
-        return (
-            'Too many matches, specify another filter'
-        )
+const filterAdded = (filter) => {
+    return (filter.length > 0)
+}
 
-    } else if (filteredCountries.length === 1) {
-        const filteredCountry = filteredCountries[0].props.country
-        return (
-            <CountryDetail key={filteredCountry.name.official} country={filteredCountry} />
-        )
 
-    } else if (filteredCountries.length === 0) {
-        return (
-            'No countries found'
-        )
+export const ShowFiltered = ({ countries, filter }) => {
+    const filteredCountries = filterCountries(countries, filter)
+    const filterIsAdded = filterAdded(filter)
+    const numberOfCountries = countCountries(filteredCountries)
+
+    if (numberOfCountries > 10 && filterIsAdded) {
+        return <TooManyMatches />
+
+    } else if (numberOfCountries === 0) {
+        return <NoMatches />
+
+    } else if (numberOfCountries === 1) {
+        return  <OneMatchFound matchedCountry={filteredCountries[0].props.country} />
+
+    } else {
+        return <ShowListOfCountries list={filteredCountries} />
     }
-
-    return (
-        <ul>
-            {filteredCountries}
-        </ul>
-    )
 }
-
