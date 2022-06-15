@@ -12,7 +12,6 @@ export const AddFilter = (props) => (
 
 export const ShowFiltered = (props) => (
   <ul>
-    {console.log('kontaktit on', props.contacts)}
     {props.contacts
       .filter(person => (person.name.toLowerCase()).includes((props.filter).toLowerCase()) || (person.number).includes(props.filter))
       .map(person => <Person key={person.id} person={person} />)}
