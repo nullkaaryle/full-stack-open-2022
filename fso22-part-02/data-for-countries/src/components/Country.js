@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { Button } from './Form'
+import { GetWeather } from './Weather'
 
-
+// counts the number of countries in the given list
 export const countCountries = (countries) => {
     return countries.length
 }
 
-
-export const ShowListOfCountries= ({list}) => {
+// helper for rendering countries in list style
+export const ShowListOfCountries = ({ list }) => {
     return (
         <ul>
             {list}
@@ -15,7 +16,8 @@ export const ShowListOfCountries= ({list}) => {
     )
 }
 
-
+// renders the detailed information of one country
+// uses Weather component for showing weather in the country capital
 export const RenderCountryDetails = ({ country }) => {
     return (
         <>
@@ -40,11 +42,16 @@ export const RenderCountryDetails = ({ country }) => {
                 alt='flag of the country'
             />
 
+            <GetWeather city={country.capital} />
+
         </>
     )
 }
 
-
+// defines how the individual countries are rendered in the list
+// uses detailsShown boolean as a check 
+// if also the country details should be shown in the list
+// user toggles the country details by pressing a button
 export const Country = ({ country }) => {
     const [detailsShown, setDetailsShown] = useState(false)
     const toggleShowCountryDetails = () => setDetailsShown(!detailsShown)

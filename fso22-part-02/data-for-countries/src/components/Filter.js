@@ -2,7 +2,10 @@ import { Country, countCountries, ShowListOfCountries } from './Country'
 import { Input } from './Form'
 import { TooManyMatches, OneMatchFound, NoMatches } from './Match'
 
-
+// adds the search term the user types in the search field
+// as a filter
+// uses Input component
+// guides to root App to use function handleFilterChange() 
 export const AddFilter = ({ filter, onChange }) => (
     <Input
         text='Find countries: '
@@ -10,7 +13,7 @@ export const AddFilter = ({ filter, onChange }) => (
         onChange={onChange} />
 )
 
-
+// filter the list of all countries based on the filter
 const filterCountries = (countries, filter) => {
     return (
         countries
@@ -19,12 +22,14 @@ const filterCountries = (countries, filter) => {
     )
 }
 
-
+// helper function to check if filter is present
+// returns true if there is text in the search field
 const filterAdded = (filter) => {
     return (filter.length > 0)
 }
 
-
+// goes through four different situations for country list rendering
+// uses components from Match and Country as helpers
 export const ShowFiltered = ({ countries, filter }) => {
     const filteredCountries = filterCountries(countries, filter)
     const filterIsAdded = filterAdded(filter)
@@ -37,7 +42,7 @@ export const ShowFiltered = ({ countries, filter }) => {
         return <NoMatches />
 
     } else if (numberOfCountries === 1) {
-        return  <OneMatchFound matchedCountry={filteredCountries[0].props.country} />
+        return <OneMatchFound matchedCountry={filteredCountries[0].props.country} />
 
     } else {
         return <ShowListOfCountries list={filteredCountries} />

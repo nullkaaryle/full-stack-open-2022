@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { AddFilter, ShowFiltered } from './components/Filter'
 
-
+// the root component
+// uses Filter component for rendering
 const App = () => {
 
   const [countries, setCountries] = useState([])

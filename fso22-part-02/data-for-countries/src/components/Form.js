@@ -1,4 +1,5 @@
 
+// helper for rendering input field
 export const Input = (props) => (
     <p>
         {props.text}
@@ -8,7 +9,7 @@ export const Input = (props) => (
     </p>
 )
 
-
+// helper for button rendering
 export const Button = (props) => (
     <button onClick={props.handleClick}>
         {props.text}
