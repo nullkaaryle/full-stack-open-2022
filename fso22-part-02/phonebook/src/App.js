@@ -34,16 +34,23 @@ const App = () => {
     setNewFilter(event.target.value)
   }
 
-  const findName = (id) => (
+  const findNameWithId = (id) => (
     persons.find((person) => person.id === id).name
   )
 
+  const findNameWithNumber = (number) => (
+    persons.find((person) => person.number === number).name
+  )
+
+  const findIdWithName = (name) => (
+    persons.find((person) => person.name.toLowerCase() === name.toLowerCase()).id
+  )
+
   const handleDeletePerson = (personId) => {
-    const personName = findName(personId)
-    if (window.confirm('Delete ' + personName + '?')) {
+    const personName = findNameWithId(personId)
+    if (window.confirm('Delete ' + personName + ' from phonebook?')) {
       removePerson(personId)
     }
-
   }
 
   const reset = () => {
@@ -53,20 +60,39 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    if (matchName || matchNumber) {
+    if (matchNumber) {
       alertUser()
+    } else if (matchName) {
+      confirmNumberChange()
     } else {
       savePerson()
     }
   }
 
-
   const matchName = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase())
   const matchNumber = persons.find((person) => person.number === newNumber)
 
   const alertUser = () => {
-    window.alert(`No contact added, because the name '${newName}' or the number '${newNumber}' is already added to phonebook`)
+    const numberOwner = findNameWithNumber(newNumber)
+    window.alert(`No contact added, because the number ${newNumber} is already added to phonebook for ${numberOwner}`)
     reset()
+  }
+
+  const confirmNumberChange = () => {
+    if (window.confirm(` ${newName} is already added to phonebook, replace the old number with a new one?`)) {
+      updatePerson(findIdWithName(newName))
+      reset()
+    }
+  }
+
+  const updatePerson = (id) => {
+    const person = persons.find(n => n.id === id)
+    const changedPerson = { ...person, number: newNumber }
+    personService
+      .update(id, changedPerson)
+      .then(response => {
+        setPersons(persons.map(person => person.id !== id ? person : response.data))
+      })
   }
 
   const savePerson = () => {
@@ -123,4 +149,3 @@ const App = () => {
 }
 
 export default App
-
