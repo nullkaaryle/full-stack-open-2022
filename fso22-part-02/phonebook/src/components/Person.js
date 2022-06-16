@@ -1,8 +1,13 @@
+import { Button } from './Form';
 
-const Person = ({ person }) => {
-    return (
-        <li>{person.name} {' '} {person.number}</li>
-    )
+export const Person = (person, props) => {
+  return (
+    <li key={person.id}>
+      {person.name}
+      {' '}
+      {person.number}
+      {' '}
+      <Button onClick={() => props.buttonFunction(person.id)} text='DELETE' />
+    </li>
+  )
 }
-
-export default Person

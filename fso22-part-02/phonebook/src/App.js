@@ -34,6 +34,18 @@ const App = () => {
     setNewFilter(event.target.value)
   }
 
+  const findName = (id) => (
+    persons.find((person) => person.id === id).name
+  )
+
+  const handleDeletePerson = (personId) => {
+    const personName = findName(personId)
+    if (window.confirm('Delete ' + personName + '?')) {
+      removePerson(personId)
+    }
+
+  }
+
   const reset = () => {
     setNewName('')
     setNewNumber('')
@@ -47,6 +59,7 @@ const App = () => {
       savePerson()
     }
   }
+
 
   const matchName = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase())
   const matchNumber = persons.find((person) => person.number === newNumber)
@@ -69,6 +82,13 @@ const App = () => {
       })
   }
 
+  const removePerson = (id) => {
+    personService
+      .deletePerson(id)
+      .then(response => {
+        setPersons(persons.filter(n => n.id !== id))
+      })
+  }
 
 
   return (
@@ -85,6 +105,7 @@ const App = () => {
       <ShowFiltered
         contacts={persons}
         filter={newFilter}
+        buttonFunction={handleDeletePerson}
       />
 
       <h2> Add a new contact </h2>
@@ -95,9 +116,11 @@ const App = () => {
         onNameChange={handleNameChange}
         valueNumber={newNumber}
         onNumberChange={handleNumberChange}
+        buttonText='ADD CONTACT'
       />
     </div>
   )
 }
 
 export default App
+
