@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import personService from './services/persons'
+import findService from './services/find'
+import { ErrorNotification, SuccessNotification } from './components/Notification'
 import { Form } from './components/Form'
 import { AddFilter, ShowFiltered } from './components/Filter'
 
@@ -21,6 +23,13 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
+
+  const reset = () => {
+    setNewName('')
+    setNewNumber('')
+  }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -34,58 +43,43 @@ const App = () => {
     setNewFilter(event.target.value)
   }
 
-  const findNameWithId = (id) => (
-    persons.find((person) => person.id === id).name
-  )
-
-  const findNameWithNumber = (number) => (
-    persons.find((person) => person.number === number).name
-  )
-
-  const findIdWithName = (name) => (
-    persons.find((person) => person.name.toLowerCase() === name.toLowerCase()).id
-  )
-
-  const handleDeletePerson = (personId) => {
-    const personName = findNameWithId(personId)
-    if (window.confirm('Delete ' + personName + ' from phonebook?')) {
-      removePerson(personId)
-    }
-  }
-
-  const reset = () => {
-    setNewName('')
-    setNewNumber('')
-  }
 
   const addPerson = (event) => {
     event.preventDefault()
-    if (matchNumber) {
+    if (findService.matchNumber(persons, newNumber)) {
       alertUser()
-    } else if (matchName) {
-      confirmNumberChange()
+    } else if (findService.matchName(persons, newName)) {
+      changeNumber()
     } else {
       savePerson()
+      showSuccessMessage(`The contact with name ${newName} and number ${newNumber} is added to phonebook`)
     }
   }
 
-  const matchName = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase())
-  const matchNumber = persons.find((person) => person.number === newNumber)
-
-  const alertUser = () => {
-    const numberOwner = findNameWithNumber(newNumber)
-    window.alert(`No contact added, because the number ${newNumber} is already added to phonebook for ${numberOwner}`)
+  const changeNumber = () => {
+    if (window.confirm(` ${newName} is already added to phonebook, replace the old number with a new one?`)) {
+      changePerson(findService.findIdWithName(newName, persons))
+      showSuccessMessage(`The number ${newNumber} is added to ${newName} `)
+    }
     reset()
   }
 
-  const confirmNumberChange = () => {
-    if (window.confirm(` ${newName} is already added to phonebook, replace the old number with a new one?`)) {
-      updatePerson(findIdWithName(newName))
-      reset()
+  const handleDeletePerson = (personId) => {
+    const name = findService.findNameWithId(personId, persons)
+    if (window.confirm('Delete ' + name + ' from phonebook?')) {
+      removePerson(personId)
     }
+    showSuccessMessage(` ${name} is deleted from the phonebook `)
   }
 
-  const updatePerson = (id) => {
+  const alertUser = () => {
+    const numberOwner = findService.findNameWithNumber(newNumber, persons)
+    showErrorMessage(`No contact added, because the number ${newNumber} is already saved to phonebook for ${numberOwner}`)
+    reset()
+  }
+
+
+  const changePerson = (id) => {
     const person = persons.find(n => n.id === id)
     const changedPerson = { ...person, number: newNumber }
     personService
@@ -94,6 +88,7 @@ const App = () => {
         setPersons(persons.map(person => person.id !== id ? person : response.data))
       })
   }
+
 
   const savePerson = () => {
     const personObject = {
@@ -108,6 +103,7 @@ const App = () => {
       })
   }
 
+
   const removePerson = (id) => {
     personService
       .deletePerson(id)
@@ -117,9 +113,27 @@ const App = () => {
   }
 
 
+  const showSuccessMessage = (message) => {
+    setSuccessMessage(message)
+    setTimeout(() => {
+      setSuccessMessage(null)
+    }, 3000)
+  }
+
+  const showErrorMessage = (message) => {
+    setErrorMessage(message)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 3000)
+  }
+
+
   return (
     <div>
       <h1> Phonebook </h1>
+      <ErrorNotification message={errorMessage} />
+      <SuccessNotification message={successMessage} />
+
 
       <AddFilter
         filter={newFilter}
@@ -143,9 +157,12 @@ const App = () => {
         valueNumber={newNumber}
         onNumberChange={handleNumberChange}
         buttonText='ADD CONTACT'
+
       />
     </div>
   )
 }
 
 export default App
+
+
