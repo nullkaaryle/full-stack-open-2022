@@ -1,4 +1,6 @@
 
+// helper to render error message
+// the style can be found from index.css
 export const ErrorNotification = ({message}) => {
     if (message === null) {
         return null
@@ -11,6 +13,8 @@ export const ErrorNotification = ({message}) => {
     }
 }
 
+// helper to render success message
+// the style can be found from index.css
 export const SuccessNotification = ({message}) => {
     if (message === null) {
         return null

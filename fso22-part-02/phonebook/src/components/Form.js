@@ -1,4 +1,5 @@
 
+// for button functions
 export const Button = (props) => (
   <button
     type={props.type}
@@ -7,6 +8,7 @@ export const Button = (props) => (
   </button>
 )
 
+// for input fields 
 export const Input = (props) => (
   <p>
     {props.text}
@@ -16,6 +18,8 @@ export const Input = (props) => (
   </p>
 )
 
+// for form rendering and functions
+// uses Input and Button components
 export const Form = (props) => {
   return (
     <form onSubmit={props.onSubmit}>
