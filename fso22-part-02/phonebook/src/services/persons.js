@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'https://stunning-death-valley-15123.herokuapp.com/api/persons'
+const baseUrl = 'api/persons'
 
 // using axios to handle persons list operations
 // using baseUrl for get, post, put and delete
