@@ -8,7 +8,7 @@ import { AddFilter, ShowFiltered } from './components/Filter'
 
 // the root component
 // user can filter (search) contacts in the phonebook
-// add a new contact, 
+// add a new contact,
 // change number for contact
 // or delete contact
 const App = () => {
@@ -23,7 +23,7 @@ const App = () => {
 
 
   // uses personService to set and get the initial list
-  // of contacts 
+  // of contacts
   useEffect(() => {
     personService
       .getAll()
@@ -34,7 +34,7 @@ const App = () => {
 
 
   // sets empty strings newName and newNumber,
-  // used to reset the input fields 
+  // used to reset the input fields
   // after submitting the new contact creation form
   const reset = () => {
     setNewName('')
@@ -58,7 +58,7 @@ const App = () => {
   }
 
 
-  // handles three different situations 
+  // handles three different situations
   // that can happen after the user wants to add a contact,
   // uses findService functions the check
   // if the number or name of person are already added to phonebook
@@ -89,7 +89,7 @@ const App = () => {
     reset()
   }
 
-  // changes number for a person 
+  // changes number for a person
   // if the name is already found in the phonebook
   // user has to confirm the change
   const changeNumber = () => {
@@ -135,7 +135,7 @@ const App = () => {
         showSuccessMessage(`The contact with name ${newName} and number ${newNumber} is added to phonebook`)
       })
       .catch(error => {
-        showErrorMessage("Sorry, something went wrong: " + error.response.data.error)
+        showErrorMessage('Sorry, something went wrong: ' + error.response.data.error)
       })
     reset()
   }
@@ -152,7 +152,7 @@ const App = () => {
         showSuccessMessage(` ${name} is deleted from the phonebook `)
       })
       .catch(error => {
-        showErrorMessage(`Sorry, something went wrong: ` + error.response.data.error)
+        showErrorMessage('Sorry, something went wrong: ' + error.response.data.error)
       })
   }
 

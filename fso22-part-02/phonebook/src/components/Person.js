@@ -1,4 +1,4 @@
-import { Button } from './Form';
+import { Button } from './Form'
 
 // rendering a person object in a list
 // and the delete button

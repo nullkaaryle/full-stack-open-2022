@@ -8,7 +8,7 @@ export const Button = (props) => (
   </button>
 )
 
-// for input fields 
+// for input fields
 export const Input = (props) => (
   <p>
     {props.text}
