@@ -135,7 +135,7 @@ const App = () => {
         showSuccessMessage(`The contact with name ${newName} and number ${newNumber} is added to phonebook`)
       })
       .catch(error => {
-        showErrorMessage(`Sorry, something went wrong`)
+        showErrorMessage("Sorry, something went wrong: " + error.response.data.error)
       })
     reset()
   }
@@ -152,7 +152,7 @@ const App = () => {
         showSuccessMessage(` ${name} is deleted from the phonebook `)
       })
       .catch(error => {
-        showErrorMessage(`Sorry, something went wrong`)
+        showErrorMessage(`Sorry, something went wrong: ` + error.response.data.error)
       })
   }
 
@@ -163,7 +163,7 @@ const App = () => {
     setSuccessMessage(message)
     setTimeout(() => {
       setSuccessMessage(null)
-    }, 3000)
+    }, 5000)
   }
 
   // sets error message in status
@@ -172,7 +172,7 @@ const App = () => {
     setErrorMessage(message)
     setTimeout(() => {
       setErrorMessage(null)
-    }, 3000)
+    }, 5000)
   }
 
 
