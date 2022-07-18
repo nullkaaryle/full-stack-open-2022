@@ -163,7 +163,7 @@ const App = () => {
     setSuccessMessage(message)
     setTimeout(() => {
       setSuccessMessage(null)
-    }, 5000)
+    }, 3000)
   }
 
   // sets error message in status
@@ -172,7 +172,7 @@ const App = () => {
     setErrorMessage(message)
     setTimeout(() => {
       setErrorMessage(null)
-    }, 5000)
+    }, 3000)
   }
 
 
